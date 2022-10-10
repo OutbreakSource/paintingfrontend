@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles.css";
+import "./style.css";
 
 const tf = require("@tensorflow/tfjs");
 
@@ -17,7 +17,7 @@ async function predictAlt() {
     console.log(typeof model);
 }
 
-export default function detection() {
+export default function Detection() {
     return (
         <div className="App">
             <button onClick={predict} style={{ fontSize: "20px" }}>
