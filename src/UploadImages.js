@@ -12,7 +12,7 @@ export default function UploadImages() {
         const loadModel = async () => {
             const model_url = "https://paintingemotion.s3.us-west-2.amazonaws.com/model.json";
 
-            const model = await tf.loadGraphModel(model_url);
+            const model = await tf.loadLayersModel(model_url);
 
             setModel(model);
         };
@@ -23,8 +23,10 @@ export default function UploadImages() {
             );
 
             const data = await res.json();
+            const testLabel = ["awe", "anger", "amusement", "contentment", "disgust",
+            "fear", "sadness", "excitement"]
 
-            setClassLabels(data);
+            setClassLabels(testLabel);
         };
 
         loadModel();
@@ -71,7 +73,7 @@ export default function UploadImages() {
 
             // tf.tidy for automatic memory cleanup
             const [predictedClass, confidence] = tf.tidy(() => {
-                const tensorImg = tf.browser.fromPixels(image).resizeNearestNeighbor([224, 224]).toFloat().expandDims();
+                const tensorImg = tf.browser.fromPixels(image).resizeNearestNeighbor([120, 120]).toFloat().expandDims();
                 const result = model.predict(tensorImg);
 
                 const predictions = result.dataSync();
