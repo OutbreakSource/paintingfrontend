@@ -1,8 +1,9 @@
 import React from "react";
 import "./style.css";
+import { useModel } from 'react-tensorflow';
 
 const tf = require("@tensorflow/tfjs");
-const tfn = require("@tensorflow/tfjs-node");
+// const tfn = require("@tensorflow/tfjs-node");
 
 // example model - working
 async function predict() {
@@ -13,13 +14,21 @@ async function predict() {
 }
 
 // my model - not working
-async function predictAlt() {
-    const handler = tfn.io.fileSystem("./model.json");
-    const myModel = await tf.loadLayersModel(handler);
-    const prediction = myModel.predict(tf.ones([120,120,3]));
+// async function predictAlt() {
+//     const model = useModel({ modelUrl: `./model.json` })
+//     const prediction = model.predict(tf.ones([120,120,3]));
+//     console.log(prediction);
+//     console.log(typeof model);
+// }
+
+const MyModelComponent = () => {
+    const model = useModel({ modelUrl: `./model.js` })
+    const prediction = model.predict(tf.ones([120,120,3]));
     console.log(prediction);
-    console.log(typeof model);
-}
+
+  
+    return null
+  }
 
 export default function Detection() {
     return (
@@ -29,9 +38,17 @@ export default function Detection() {
             </button>
             <br />
             <br />
-            <button onClick={predictAlt} style={{ fontSize: "20px" }}>
+            <button onClick={MyModelComponent} style={{ fontSize: "20px" }}>
                 my model
             </button>
         </div>
     );
 }
+
+// const MyModelComponent = () => {
+//     const model = useModel({ modelUrl: `${PATH_TO_MODEL}` })
+  
+//     // ...do something with the model
+  
+//     return null
+//   }
