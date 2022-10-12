@@ -23,3 +23,18 @@ form {
     margin-top: 1em;
     color: red;
 }
+
+.dropzoneStyle {
+    position : relative;
+    width : 50%;
+    height: 100%;
+}
+
+.dropzoneText {
+    display : flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
