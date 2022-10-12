@@ -19,11 +19,7 @@ export default function UploadImages() {
         };
 
         const getClassLabels = async () => {
-            const res = await fetch(
-                "https://paintingemotion.s3.us-west-2.amazonaws.com/model.json"
-            );
 
-            const data = await res.json();
             const testLabel = ["awe", "anger", "amusement", "contentment", "disgust",
             "fear", "sadness", "excitement"]
 
@@ -72,7 +68,6 @@ export default function UploadImages() {
             const imageSrc = await readImageFile(files[0]);
             const image = await createHTMLImageElement(imageSrc);
 
-            // tf.tidy for automatic memory cleanup
             const [predictedClass, confidence] = tf.tidy(() => {
                 const tensorImg = tf.browser.fromPixels(image).resizeNearestNeighbor([120, 120]).toFloat().expandDims();
                 const result = model.predict(tensorImg);
@@ -92,17 +87,7 @@ export default function UploadImages() {
         }
 
     };
-    const [images, setImages] = useState([]);
-    const [imageURLs, setImageURLs] = useState([])
 
-    useEffect(() => {
-        if (images.length < 1){
-            return
-        }
-        const newImageUrls = [];
-        images.forEach(image => newImageUrls.push(URL.createObjectURL(image)))
-        setImageURLs(newImageUrls)
-    }, [images]);
 
 
     return (
