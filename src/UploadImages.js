@@ -4,6 +4,7 @@ import * as tf from "@tensorflow/tfjs";
 import { DropzoneArea } from "material-ui-dropzone";
 import { Backdrop, Chip, CircularProgress, Grid, Stack } from "@mui/material";
 
+
 export default function UploadImages() {
     const [model, setModel] = useState(null);
     const [classLabels, setClassLabels] = useState(null);
@@ -84,12 +85,25 @@ export default function UploadImages() {
 
                 return [predictedClass, confidence];
             });
-
+            console.log(predictedClass)
             setPredictedClass(predictedClass);
             setConfidence(confidence);
             setLoading(false);
         }
+
     };
+    const [images, setImages] = useState([]);
+    const [imageURLs, setImageURLs] = useState([])
+
+    useEffect(() => {
+        if (images.length < 1){
+            return
+        }
+        const newImageUrls = [];
+        images.forEach(image => newImageUrls.push(URL.createObjectURL(image)))
+        setImageURLs(newImageUrls)
+    }, [images]);
+
 
     return (
         <Fragment>
