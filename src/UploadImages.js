@@ -16,7 +16,7 @@ export default function UploadImages() {
         };
         const getClassLabels = async () => {
             const testLabel = ["awe", "anger", "amusement", "contentment", "disgust",
-            "fear", "sadness", "excitement"]
+            "excitement", "fear", "sadness"]
             setClassLabels(testLabel);
         };
         loadModel();
@@ -77,7 +77,9 @@ export default function UploadImages() {
             const [predictedClass, confidence] = tf.tidy(() => {
                 const tensorImg = tf.browser.fromPixels(image).resizeNearestNeighbor([120, 120]).toFloat().expandDims();
                 const result = model.predict(tensorImg);
+                console.log(result)
                 const predictions = result.dataSync();
+                console.log(predictions)
                 const predicted_index = result.as1D().argMax().dataSync()[0];
                 const predictedClass = classLabels[predicted_index];
                 const confidence = Math.round(predictions[predicted_index] * 100);
