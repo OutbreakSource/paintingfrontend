@@ -51,31 +51,6 @@ export default function UploadImages() {
 
     const [images, setImages] = useState([]);
     const [imageURLs, setImageURLs] = useState([])
-    const handleImageChange = async (files) => {
-        if (files.length === 0) {
-            setConfidence(null);
-            setPredictedClass(null);
-        }
-        if (files.length === 1) {
-            setImages([...files.target.files]);
-            setLoading(true);
-            const imageSrc = await readImageFile(files[0]);
-            const image = await createHTMLImageElement(imageSrc);
-            const [predictedClass, confidence] = tf.tidy(() => {
-                const tensorImg = tf.browser.fromPixels(image).resizeNearestNeighbor([120, 120]).toFloat().expandDims();
-                const result = model.predict(tensorImg);
-                const predictions = result.dataSync();
-                const predicted_index = result.as1D().argMax().dataSync()[0];
-                const predictedClass = classLabels[predicted_index];
-                const confidence = Math.round(predictions[predicted_index] * 100);
-                return [predictedClass, confidence];
-            });
-            setPredictedClass(predictedClass);
-            setConfidence(confidence);
-            setLoading(false);
-        }
-    };
-
 
 
     useEffect(() => {
